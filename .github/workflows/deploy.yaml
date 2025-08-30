@@ -18,12 +18,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-	  - name: Build Docker image
-	  run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/fsq-node-backend:latest .
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/fsq-node-backend:latest .
 
-	  - name: Push Docker image
-	  run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/fsq-node-backend:latest
-
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/fsq-node-backend:latest
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.10
@@ -32,7 +31,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/fsq-node-backend:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fsq-node-backend:latest
             docker stop fsq-node-backend || true
             docker rm fsq-node-backend || true
             docker run -d --name fsq-node-backend \
@@ -40,4 +39,4 @@ jobs:
               -e FSQ_API_KEY=${{ secrets.FSQ_API_KEY }} \
               -e FSQ_BASE_URL=${{ secrets.FSQ_BASE_URL }} \
               -e PORT=${{ secrets.PORT }} \
-              ${{ secrets.DOCKER_HUB_USERNAME }}/fsq-node-backend:latest
+              ${{ secrets.DOCKERHUB_USERNAME }}/fsq-node-backend:latest
