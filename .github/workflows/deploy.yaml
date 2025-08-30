@@ -39,5 +39,5 @@ jobs:
 			  -e FSQ_API_KEY=${{ secrets.FSQ_API_KEY }} \
 			  -e FSQ_BASE_URL=${{ secrets.FSQ_BASE_URL }} \
 			  -e PORT=5000 \
-			  kabirrajsingh10/fsq-node-backend:latest
+			   kabirrajsingh10/fsq-node-backend:latest
 
